@@ -1,2 +1,5 @@
 # LiveRetro
-Have retro's online so remote workers can join in the sticky note fun, but most importantly lets say no to stickynotes
+
+Let's make having retro's easy but most importantly environmently friendly.
+
+Have retro's online so remote workers can join in with the sticky note fun without actually using sticky notes.
