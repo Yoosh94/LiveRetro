@@ -3,7 +3,7 @@ var path = require('path');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-
+var currentRooms = [];
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -21,7 +21,25 @@ app.get('*', (req,res) =>{
 
 io.on('connection', function(socket){
     console.log('a user connected');
+
+    socket.on('createRoom',function(){
+        console.log("Creating a room")
+        currentRooms.push('abcdroom');
+        socket.emit('roomCreated','abcdroom');
+    });
+
+    socket.on('joinRoom',(roomCode)=>{
+        const doesRoomExist = currentRooms.includes(roomCode);
+        if(doesRoomExist){
+            socket.emit('joinRoomSuccess',roomCode);
+        }else{
+            socket.emit('joinRoomFailed');
+        }
+    })
+
+
   });
+
 
 const port = process.env.PORT || 5000;
 http.listen(port);
