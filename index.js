@@ -3,6 +3,7 @@ var path = require('path');
 var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+var RoomGenerator = require('./RoomGenerator')
 var currentRooms = [];
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -24,8 +25,10 @@ io.on('connection', function(socket){
 
     socket.on('createRoom',function(){
         console.log("Creating a room")
-        currentRooms.push('abcdroom');
-        socket.emit('roomCreated','abcdroom');
+        var roomCode = RoomGenerator.Generate();
+        console.log(roomCode);
+        currentRooms.push(roomCode);
+        socket.emit('roomCreated',roomCode);
     });
 
     socket.on('joinRoom',(roomCode)=>{
