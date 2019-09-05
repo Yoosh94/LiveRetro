@@ -23,22 +23,22 @@ app.get('*', (req,res) =>{
 io.on('connection', function(socket){
     console.log('a user connected');
 
-    socket.on('createRoom',function(){
+    socket.on('createRoom',function(name){
         console.log("Creating a room")
         var roomCode = RoomGenerator.Generate();
         console.log(roomCode);
-        currentRooms.push({roomCode:roomCode});
+        currentRooms.push({roomCode:roomCode,participants:[name]});
         socket.emit('roomCreated',roomCode);
     });
 
-    socket.on('joinRoom',(roomCode)=>{
+    socket.on('joinRoom',(roomCode,participantName)=>{
 
-        const doesRoomExist = currentRooms.filter(roomObject =>{
+        const roomToEnter = currentRooms.filter(roomObject =>{
            return roomObject.roomCode === roomCode
-        }).length;
+        });
 
-        if(doesRoomExist > 0){
-
+        if(roomToEnter.length === 1){
+            roomToEnter[0].participants.push(participantName);
             socket.emit('joinRoomSuccess',roomCode)
         }else{
             socket.emit('joinRoomFailed');
