@@ -27,20 +27,23 @@ io.on('connection', function(socket){
         console.log("Creating a room")
         var roomCode = RoomGenerator.Generate();
         console.log(roomCode);
-        currentRooms.push(roomCode);
+        currentRooms.push({roomCode:roomCode});
         socket.emit('roomCreated',roomCode);
     });
 
     socket.on('joinRoom',(roomCode)=>{
-        const doesRoomExist = currentRooms.includes(roomCode);
-        if(doesRoomExist){
-            socket.emit('joinRoomSuccess',roomCode);
+
+        const doesRoomExist = currentRooms.filter(roomObject =>{
+           return roomObject.roomCode === roomCode
+        }).length;
+
+        if(doesRoomExist > 0){
+
+            socket.emit('joinRoomSuccess',roomCode)
         }else{
             socket.emit('joinRoomFailed');
-        }
+        } 
     })
-
-
   });
 
 
