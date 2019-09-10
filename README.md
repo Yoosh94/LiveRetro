@@ -15,6 +15,7 @@ This project contains the code for a backend node server. The UI project is a re
 
 ### Prerequisite
 Node.js - https://nodejs.org/en/download/
+Understanding of Socket.io - https://socket.io/
 
 ### Node Server and React frontend
 1. Clone the repository
