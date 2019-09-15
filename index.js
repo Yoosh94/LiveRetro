@@ -26,8 +26,12 @@ io.on('connection', function(socket){
     socket.on('createRoom',function(name){
         console.log("Creating a room")
         var roomCode = RoomGenerator.Generate();
+        var room = RoomGenerator.Room();
+        room.roomCode = roomCode;
+        room.participants.push(name);
         console.log(roomCode);
-        currentRooms.push({roomCode:roomCode,participants:[name]});
+        currentRooms.push(room);
+        console.log(currentRooms);
         socket.emit('roomCreated',roomCode);
     });
 
@@ -43,6 +47,24 @@ io.on('connection', function(socket){
         }else{
             socket.emit('joinRoomFailed');
         } 
+    });
+
+    socket.on('addNote',(roomCode,noteToAdd)=>{
+        const roomToEnter = currentRooms.filter(roomObject =>{
+            return roomObject.roomCode === roomCode
+         })[0];
+         var existingNote = roomToEnter.notes.filter(note =>{
+            return note.noteId === noteToAdd.noteId;
+         })[0];
+         // If it is an existing note just update the location
+         if(existingNote){
+            existingNote.positionX = noteToAdd.positionX;
+            existingNote.positionY = noteToAdd.positionY;
+         } else{
+            roomToEnter.notes.push(noteToAdd);
+         }
+        
+        socket.emit('noteUpdated',roomToEnter.notes);
     })
   });
 
