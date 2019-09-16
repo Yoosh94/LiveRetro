@@ -1,3 +1,5 @@
+import { Room } from "room";
+
 module.exports = {
     Generate: function () {
         var text = "";  
@@ -8,10 +10,12 @@ module.exports = {
         return text;
     },
 
-    Room : function(){
-        return {
-            roomCode:'',
-            participants:[],
-            notes:[]}
+    Room : ():Room => {
+        let room : Room = {
+            code:'',
+            notes:[],
+            participants:[]
+        };
+        return room;
     }
 };
