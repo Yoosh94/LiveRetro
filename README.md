@@ -21,7 +21,7 @@ Understanding of Socket.io - https://socket.io/
 1. Clone the repository
 2. Open the project (my preferred editor is vscode)
 3. Open a terminal (this can be inside vscode or your operating systems terminal and run _npm install_
-4. Run _npm run dev dev_
+4. Run _npm run dev_
 5. This will run nodemon to watch all .ts files and reload when any of them change. This will mean you do not need to restart the server each time you make a change.
 
 ### React application
