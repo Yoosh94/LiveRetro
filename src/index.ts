@@ -1,7 +1,6 @@
 import { Room, Participant, Note } from "room";
 import { Request, Response } from "express";
 import { Socket } from "socket.io";
-
 let express = require('express');
 let path = require('path');
 let app = express();
@@ -39,6 +38,7 @@ io.on('connection', function(socket:Socket){
         console.log(roomCode);
         currentRooms.push(room);
         console.log(currentRooms);
+        socket.join(roomCode);
         socket.emit('roomCreated',roomCode);
     });
 
@@ -54,6 +54,7 @@ io.on('connection', function(socket:Socket){
 
         if(roomToEnter.length === 1){
             roomToEnter[0].participants.push(participantToAdd);
+            socket.join(roomCode);
             socket.emit('joinRoomSuccess',roomCode)
         }else{
             socket.emit('joinRoomFailed');
@@ -77,11 +78,9 @@ io.on('connection', function(socket:Socket){
             roomToEnter.notes.push(noteToAdd);
          }
         console.log(roomToEnter.notes);
-        socket.emit('noteUpdated',roomToEnter.notes);
+        socket.to(roomCode).emit('noteUpdated',roomToEnter.notes);
     })
   });
-
-
 const port = process.env.PORT || 5000;
 http.listen(port);
 
