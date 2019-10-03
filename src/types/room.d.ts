@@ -10,6 +10,7 @@ interface Participant {
 
 interface Note {
     id : number,
+    author:string,
     positionX:number,
     positionY:number,
 }

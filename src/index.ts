@@ -67,7 +67,7 @@ io.on('connection', function(socket:Socket){
          })[0];
 
          let existingNote = roomToEnter.notes.filter(note =>{
-            return note.id === noteToAdd.id;
+            return note.id === noteToAdd.id && note.author === noteToAdd.author;
          })[0];
 
          // If it is an existing note just update the location
