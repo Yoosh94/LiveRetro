@@ -47,6 +47,7 @@ io.on('connection', (socket: Socket) => {
       roomToEnter[0].participants.push(participantToAdd);
       socket.join(roomCode);
       socket.emit('joinRoomSuccess', roomCode);
+      socket.emit('noteUpdated', roomToEnter[0].notes);
     } else {
       socket.emit('joinRoomFailed');
     }
